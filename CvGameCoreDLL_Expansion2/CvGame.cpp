@@ -9059,7 +9059,7 @@ int CvGame::getAsyncRandNum(int iNum, const char* pszLog)
 	if (iNum > 0)
 		return GC.getASyncRand().get(iNum, pszLog);
 
-	JDH_Assert(false, "iNum: ", iNum)
+	JDH_Assert(false, "iNum: ", iNum);
 	return -(int)GC.getASyncRand().get(-iNum, pszLog);
 }
 

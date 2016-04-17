@@ -2846,6 +2846,9 @@ CvString CvPlayer::GetBorrowedCityName(CivilizationTypes eCivToBorrowFrom) const
 	if (pCivInfo)
 	{
 		int iRange = pCivInfo->getNumCityNames() - RESERVE_TOP_X_NAMES;
+		if (iRange <= 0)
+			return szRtnValue;
+
 		int iRandOffset = GC.getGame().getJonRandNum(iRange, "Random City Name To Steal");
 		for(int iI = 0; iI < iRange; iI++)     
 		{

@@ -16,6 +16,8 @@
 #include <vector>
 #endif//_DEBUG
 
+#include <boost\random.hpp>
+
 class CvRandom
 {
 
@@ -29,7 +31,7 @@ public:
 	void uninit();
 	void reset(unsigned long ulSeed = 0);
 
-	unsigned short get(unsigned short usNum, const char* pszLog = NULL);  //  Returns value from 0 to num-1 inclusive.
+	unsigned long get(unsigned long num, const char* pszLog = NULL);  //  Returns value from 0 to num-1 inclusive.
 	float getFloat();
 
 	void reseed(unsigned long ulNewValue);
@@ -56,13 +58,14 @@ protected:
 	void recordCallStack();
 
 protected:
-
 	unsigned long m_ulRandomSeed;
 
 	// for OOS checks/debugging
 	unsigned long m_ulCallCount;
 	unsigned long m_ulResetCount;
 	bool m_bSynchronous;		// If true, the instance is marked as being one that should be synchronous across multi-player games.
+
+	boost::mt19937 m_rng;
 
 #ifdef _DEBUG
 	bool m_bExtendedCallStackDebugging;

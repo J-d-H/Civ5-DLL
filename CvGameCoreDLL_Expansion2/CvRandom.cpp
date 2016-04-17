@@ -58,6 +58,7 @@ CvRandom::CvRandom(const CvRandom& source) :
 	, m_ulCallCount(source.m_ulCallCount)
 	, m_ulResetCount(source.m_ulResetCount)
 	, m_bSynchronous(source.m_bSynchronous)
+	, m_rng(source.m_rng)
 #ifdef _DEBUG
 	, m_bExtendedCallStackDebugging(source.m_bExtendedCallStackDebugging)
 	, m_kCallStacks(source.m_kCallStacks)
@@ -69,7 +70,7 @@ CvRandom::CvRandom(const CvRandom& source) :
 
 bool CvRandom::operator==(const CvRandom& source) const
 {
-	return(m_ulRandomSeed == source.m_ulRandomSeed);
+	return(m_ulRandomSeed == source.m_ulRandomSeed && m_ulCallCount == source.m_ulCallCount);
 }
 
 bool CvRandom::operator!=(const CvRandom& source) const
@@ -107,18 +108,16 @@ void CvRandom::reset(unsigned long ulSeed)
 	// Uninit class
 	uninit();
 
-	recordCallStack();
-	m_ulRandomSeed = ulSeed;
-	m_ulResetCount++;
+	reseed(ulSeed);
 }
 
-unsigned short CvRandom::get(unsigned short usNum, const char* pszLog)
+unsigned long CvRandom::get(unsigned long num, const char* pszLog)
 {
 	recordCallStack();
 	m_ulCallCount++;
 
-	unsigned long ulNewSeed = ((RANDOM_A * m_ulRandomSeed) + RANDOM_C);
-	unsigned short us = ((unsigned short)((((ulNewSeed >> RANDOM_SHIFT) & MAX_UNSIGNED_SHORT) * ((unsigned long)usNum)) / (MAX_UNSIGNED_SHORT + 1)));
+	boost::random::uniform_int_distribution<unsigned long> dist(0, num - 1);
+	unsigned long value = dist(m_rng);
 
 	if(GC.getLogging())
 	{
@@ -138,7 +137,7 @@ unsigned short CvRandom::get(unsigned short usNum, const char* pszLog)
 				if(pLog)
 				{
 					char szOut[1024] = {0};
-					sprintf_s(szOut, "%d, %d, %u, %u, %u, %8x, %s, %s\n", kGame.getGameTurn(), kGame.getTurnSlice(), (uint)usNum, (uint)us, getSeed(), (uint)this, m_bSynchronous?"sync":"async", (pszLog != NULL)?pszLog:"Unknown");
+					sprintf_s(szOut, "%d, %d, %u, %u, %u, %8x, %s, %s\n", kGame.getGameTurn(), kGame.getTurnSlice(), num, value, getSeed(), (uint)this, m_bSynchronous?"sync":"async", (pszLog != NULL)?pszLog:"Unknown");
 					pLog->Msg(szOut);
 
 #if !defined(FINAL_RELEASE)
@@ -170,22 +169,23 @@ unsigned short CvRandom::get(unsigned short usNum, const char* pszLog)
 		}
 	}
 
-	m_ulRandomSeed = ulNewSeed;
-	return us;
+	return value;
 }
 
 
 float CvRandom::getFloat()
 {
-	return (((float)(get(MAX_UNSIGNED_SHORT))) / ((float)MAX_UNSIGNED_SHORT));
+	return (((float)(get(MAX_UNSIGNED_INT))) / ((float)MAX_UNSIGNED_INT));
 }
 
 
-void CvRandom::reseed(unsigned long ulNewValue)
+void CvRandom::reseed(unsigned long ulNewSeed)
 {
 	recordCallStack();
 	m_ulResetCount++;
-	m_ulRandomSeed = ulNewValue;
+	m_ulRandomSeed = ulNewSeed;
+	m_rng.seed(ulNewSeed);
+	m_ulCallCount = 0;
 }
 
 
@@ -226,6 +226,7 @@ void CvRandom::read(FDataStream& kStream)
 	bool b;
 	kStream >> b;
 #endif//_DEBUG
+	m_rng.discard(m_ulCallCount);
 }
 
 

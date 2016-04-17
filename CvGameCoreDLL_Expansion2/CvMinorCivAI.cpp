@@ -1915,15 +1915,15 @@ void CvMinorCivAI::DoPickPersonality()
 	switch(eRandPersonality)
 	{
 	case MINOR_CIV_PERSONALITY_FRIENDLY:
-		pFlavors[eFlavorCityDefense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorCityDefense], -2, 0, 10);
-		pFlavors[eFlavorDefense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorDefense], -2, 0, 10);
-		pFlavors[eFlavorOffense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorOffense], -2, 0, 10);
+		pFlavors[eFlavorCityDefense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorCityDefense] + 2, 2, 2, 12) - 2;
+		pFlavors[eFlavorDefense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorDefense] + 2, 2, 2, 12) - 2;
+		pFlavors[eFlavorOffense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorOffense] + 2, 2, 2, 12) - 2;
 		pFlavorManager->ResetToBasePersonality();
 		break;
 	case MINOR_CIV_PERSONALITY_HOSTILE:
-		pFlavors[eFlavorCityDefense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorCityDefense], 2, 0, 10);
-		pFlavors[eFlavorDefense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorDefense], 2, 0, 10);
-		pFlavors[eFlavorOffense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorOffense], 2, 0, 10);
+		pFlavors[eFlavorCityDefense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorCityDefense] - 2, 2, -2, 8) + 2;
+		pFlavors[eFlavorDefense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorDefense] - 2, 2, -2, 8) + 2;
+		pFlavors[eFlavorOffense] = pFlavorManager->GetAdjustedValue(pFlavors[eFlavorOffense] - 2, 2, -2, 8) + 2;
 		pFlavorManager->ResetToBasePersonality();
 		break;
 	}

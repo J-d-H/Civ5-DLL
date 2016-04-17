@@ -9001,7 +9001,11 @@ CvRandom& CvGame::getMapRand()
 //	--------------------------------------------------------------------------------
 int CvGame::getMapRandNum(int iNum, const char* pszLog)
 {
-	return m_mapRand.get(iNum, pszLog);
+	if (iNum > 0)
+		return m_mapRand.get(iNum, pszLog);
+
+	JDH_Assert(false, "iNum: ", iNum);
+	return -(int)m_mapRand.get(-iNum, pszLog);
 }
 
 
@@ -9017,7 +9021,11 @@ CvRandom& CvGame::getJonRand()
 /// Allows for logging.
 int CvGame::getJonRandNum(int iNum, const char* pszLog)
 {
-	return m_jonRand.get(iNum, pszLog);
+	if (iNum > 0)
+		return m_jonRand.get(iNum, pszLog);
+
+	JDH_Assert(false, "iNum: ", iNum);
+	return -(int)m_jonRand.get(-iNum, pszLog);
 }
 
 //	--------------------------------------------------------------------------------
@@ -9037,10 +9045,10 @@ int CvGame::getJonRandNumVA(int iNum, const char* pszLog, ...)
 		vsprintf_s(szOutput, uiOutputSize, pszLog, vl);
 		va_end(vl);
 
-		return m_jonRand.get(iNum, szOutput);
+		return getJonRandNum(iNum, szOutput);
 	}
 	else
-		return m_jonRand.get(iNum);
+		return getJonRandNum(iNum, NULL);
 }
 
 //	--------------------------------------------------------------------------------
@@ -9048,7 +9056,11 @@ int CvGame::getJonRandNumVA(int iNum, const char* pszLog, ...)
 /// This should only be called by operations that will not effect gameplay!
 int CvGame::getAsyncRandNum(int iNum, const char* pszLog)
 {
-	return GC.getASyncRand().get(iNum, pszLog);
+	if (iNum > 0)
+		return GC.getASyncRand().get(iNum, pszLog);
+
+	JDH_Assert(false, "iNum: ", iNum)
+	return -(int)GC.getASyncRand().get(-iNum, pszLog);
 }
 
 //	--------------------------------------------------------------------------------

@@ -99,7 +99,7 @@ void CvDllRandom::CopyFrom(ICvRandom1* pOther)
 //------------------------------------------------------------------------------
 unsigned short CvDllRandom::Get(unsigned short usNum, const char* pszLog)
 {
-	return m_pRandom->get(usNum, pszLog);
+	return m_pRandom->get(usNum, pszLog) & 0xFFFF;
 }
 //------------------------------------------------------------------------------
 float CvDllRandom::GetFloat()

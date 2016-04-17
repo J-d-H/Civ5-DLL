@@ -1,5 +1,12 @@
-#ignore everything except h and cpp files
-*
-!*/
-!*.h
-!*.cpp
+/BuildTemp
+/BuildOutput
+*.user
+*.filters
+/.vs
+*.sdf
+/Packages
+/.nuget/NuGet.exe
+*.opendb
+/ipch
+*.aps
+/*.vc.db

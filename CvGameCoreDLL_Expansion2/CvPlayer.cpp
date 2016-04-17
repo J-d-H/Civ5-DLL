@@ -4037,6 +4037,7 @@ ArtStyleTypes CvPlayer::getArtStyleType() const
 //	---------------------------------------------------------------------------
 void CvPlayer::doTurn()
 {
+	JDHLOG_FUNC_BEGIN(jdh::DEBUG, m_eID);
 	// Time building of these maps
 	AI_PERF_FORMAT("AI-perf.csv", ("CvPlayer::doTurn(), Turn %d, %s", GC.getGame().getGameTurn(), getCivilizationShortDescription()));
 
@@ -4115,11 +4116,13 @@ void CvPlayer::doTurn()
 	}
 
 	m_kPlayerAchievements.StartTurn();
+	JDHLOG_FUNC_END();
 }
 
 //	--------------------------------------------------------------------------------
 void CvPlayer::doTurnPostDiplomacy()
 {
+	JDHLOG_FUNC_BEGIN(jdh::DEBUG, m_eID);
 	CvGame& kGame = GC.getGame();
 
 	if(isAlive())
@@ -4286,6 +4289,7 @@ void CvPlayer::doTurnPostDiplomacy()
 	GC.GetEngineUserInterface()->setDirty(CityInfo_DIRTY_BIT, true);
 
 	AI_doTurnPost();
+	JDHLOG_FUNC_END();
 }
 
 //	--------------------------------------------------------------------------------
@@ -15784,6 +15788,7 @@ void CvPlayer::setTurnActiveForPbem(bool bActive)
 //	--------------------------------------------------------------------------------
 void CvPlayer::setTurnActive(bool bNewValue, bool bDoTurn)
 {
+	JDHLOG_FUNC_BEGIN(jdh::DEBUG, GetID(), isTurnActive(), bNewValue, bDoTurn);
 	if(isTurnActive() != bNewValue)
 	{
 		m_bTurnActive = bNewValue;
@@ -15952,6 +15957,7 @@ void CvPlayer::setTurnActive(bool bNewValue, bool bDoTurn)
 		logOutput.Format("SetTurnActive() called without changing the end turn status. Player(%i) OldTurnActive(%i) NewTurnActive(%i)", GetID(), isTurnActive(), bNewValue);
 		gDLL->netMessageDebugLog(logOutput);
 	}
+	JDHLOG_FUNC_END();
 }
 
 //	----------------------------------------------------------------------------

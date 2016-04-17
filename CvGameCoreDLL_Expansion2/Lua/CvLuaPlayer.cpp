@@ -29,7 +29,7 @@
 #include "CvDllInterfaces.h"
 
 // include this last to turn warnings into errors for code analysis
-#include "LintFree.h"
+#include "FireWorks\LintFree.h"
 
 //Utility macro for registering methods
 #define Method(Name)			\

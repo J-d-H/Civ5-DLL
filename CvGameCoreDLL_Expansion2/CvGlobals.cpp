@@ -5864,7 +5864,7 @@ int CvGlobals::getNumPlayerOptionInfos() const
 //------------------------------------------------------------------------------
 void CvGlobals::SetGameDatabase(Database::Connection* pGameDatabase)
 {
-	JDHLOG_FUNC_BEGIN(jdh::DEBUG, pGameDatabase);
+	JDHLOG_FUNC(jdh::DEBUG, pGameDatabase);
 	if(m_pGameDatabase != pGameDatabase)
 	{
 		if(m_pGameDatabase)
@@ -5872,7 +5872,6 @@ void CvGlobals::SetGameDatabase(Database::Connection* pGameDatabase)
 
 		m_pGameDatabase = pGameDatabase;
 	}
-	JDHLOG_FUNC_END();
 }
 //------------------------------------------------------------------------------
 

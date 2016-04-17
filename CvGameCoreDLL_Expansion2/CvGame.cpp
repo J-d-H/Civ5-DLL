@@ -4577,14 +4577,13 @@ void CvGame::changeTurnSlice(int iChange)
 //	--------------------------------------------------------------------------------
 void CvGame::resetTurnTimer(bool resetGameTurnStart)
 {
-	JDHLOG_FUNC_BEGIN(jdh::DEBUG, resetGameTurnStart);
+	JDHLOG_FUNC(jdh::DEBUG, resetGameTurnStart);
 	m_curTurnTimer.Start();
 	m_fCurrentTurnTimerPauseDelta = 0;
 	if(resetGameTurnStart)
 	{
 		m_timeSinceGameTurnStart.Start();
 	}
-	JDHLOG_FUNC_END();
 }
 
 //	--------------------------------------------------------------------------------
